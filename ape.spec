@@ -1,6 +1,6 @@
 %define name    ape
 %define version 1.1.2
-%define release %mkrel 1
+%define release %mkrel 2
 %define revision 0eff8f0
 
 Name:		%{name}
