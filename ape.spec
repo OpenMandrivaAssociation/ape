@@ -36,6 +36,10 @@ cat bin/ape.conf|sed -r 's|/usr/lib|%{_libdir}|' >  ape.conf.1
 %{__rm} -f bin/imspector.conf
 mv ape.conf.1 bin/ape.conf
 
+cat Makefile|sed -r 's|/usr/lib|%{_libdir}|' >  Makefile.1
+%{__rm} -f Makefile
+mv Makefile.1 Makefile
+
 echo "HAS_MYSQL = yes" > ./modules/mysql.mk
 echo "#define USE_EPOLL_HANDLER" > ./src/configure.h
 echo "LINUX_BUILD = 1" > ./modules/plateform.mk
