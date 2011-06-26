@@ -40,6 +40,14 @@ cat Makefile|sed -r 's|/usr/lib|%{_libdir}|' >  Makefile.1
 %{__rm} -f Makefile
 mv Makefile.1 Makefile
 
+%if %mdkversion < 201100
+cat modules/Makefile|sed -r 's|mysqld|mysqlclient|' >  Makefile.1
+%{__rm} -f modules/Makefile
+mv Makefile.1 modules/Makefile
+
+%endif
+
+
 echo "HAS_MYSQL = yes" > ./modules/mysql.mk
 echo "#define USE_EPOLL_HANDLER" > ./src/configure.h
 echo "LINUX_BUILD = 1" > ./modules/plateform.mk
