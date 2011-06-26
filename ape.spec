@@ -1,6 +1,6 @@
 %define name    ape
 %define version 1.1.2
-%define release %mkrel 3
+%define release %mkrel 4
 %define revision 0eff8f0
 
 Name:		%{name}
@@ -13,12 +13,15 @@ URL:        	http://www.ape-project.org/
 Source:     	APE-Project-APE_Server-v1.1.0-14-g0eff8f0.tar.gz
 Source1:     	ape.sysconfig
 Source2:     	ape.init
+Source3:	http://www.ape-project.org/stable/APE_JSF-1.1.0.tar.gz
 Patch0:		ape-makefile.patch
 Patch1:		ape-conf.patch
 BuildRequires:	mysql-devel
 BuildRequires:	js-devel
 BuildRequires:	udns-devel
 BuildRequires:	mysac-devel
+BuildRequires:  tar
+BuildRequires:  gzip
 BuildRoot:  	%{_tmppath}/%{name}-%{version}
 
 %description
@@ -26,6 +29,16 @@ A full-featured OpenSource solution designed for Ajax Push. It includes a
 webserver and a Javascript Framework. APE allows to implement any kind of 
 real-time data streaming to a web browser, without having to install 
 anything on the client-side 
+
+%package        www
+Summary:        APE frontend
+Group:          Networking/Other
+Suggests:       %{name}
+Requires:       webserver
+
+%description    www
+This package let comunication between APE and apache
+
 
 %prep
 %setup -q -n APE-Project-APE_Server-%{revision}
@@ -70,7 +83,29 @@ cd modules
 %{__install} -m0755 %{SOURCE2} %{buildroot}%{_initrddir}/ape
 %{__install} -m0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/sysconfig/ape
 echo scripts_path = %{_docdir}/ape/ > %{buildroot}%{_sysconfdir}/ape/javascript.conf
+# provide a simple apache config
+%{__mkdir_p} %{buildroot}%{_sysconfdir}/httpd/conf/vhosts.d/
+cat > %{buildroot}%{_sysconfdir}/httpd/conf/vhosts.d/99_ape.conf << EOF
+<VirtualHost *>
+        Servername localhost
+        ServerAlias ape.*
+        ServerAlias *.ape.*
+ 
+        DocumentRoot "/var/www/ape/"
+</VirtualHost>
 
+<Directory /var/www/ape/>
+    Options -Indexes FollowSymLinks MultiViews
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+</Directory>
+EOF
+
+%{__mkdir_p} %{buildroot}%{_var}/www/ape/
+pushd %{buildroot}%{_var}/www/ape/
+tar -zxvf %{SOURCE3} 
+popd
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -103,3 +138,7 @@ echo scripts_path = %{_docdir}/ape/ > %{buildroot}%{_sysconfdir}/ape/javascript.
 %_sbindir/*
 %{_libdir}/ape/*
 
+%files www
+%dir %{_var}/www/ape/
+%config(noreplace) %{_sysconfdir}/httpd/conf/vhosts.d/99_ape.conf
+%{_var}/www/ape/*
