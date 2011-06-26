@@ -1,6 +1,6 @@
 %define name    ape
 %define version 1.1.2
-%define release %mkrel 4
+%define release %mkrel 5
 %define revision 0eff8f0
 
 Name:		%{name}
@@ -121,8 +121,19 @@ popd
 %_postun_userdel ape
 %_postun_groupdel ape
 
+%postun www
+%if %mdkversion < 201010
+%_postun_webapp
+%endif
+
+
 %post
 %_post_service ape
+
+%post www
+%if %mdkversion < 201010
+%_post_webapp
+%endif
 
 
 %files
