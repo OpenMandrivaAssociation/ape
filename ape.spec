@@ -1,6 +1,6 @@
 %define name    ape
 %define version 1.1.2
-%define release %mkrel 5
+%define release %mkrel 6
 %define revision 0eff8f0
 
 Name:		%{name}
@@ -46,7 +46,7 @@ This package let comunication between APE and apache
 %patch1 -p1 -b .conf
 
 cat bin/ape.conf|sed -r 's|/usr/lib|%{_libdir}|' >  ape.conf.1
-%{__rm} -f bin/imspector.conf
+%{__rm} -f bin/ape.conf
 mv ape.conf.1 bin/ape.conf
 
 cat Makefile|sed -r 's|/usr/lib|%{_libdir}|' >  Makefile.1
@@ -75,6 +75,8 @@ cd modules
 %makeinstall
 %{__install} -d %{buildroot}%{_sysconfdir}/ape
 %{__install} bin/ape.conf %{buildroot}%{_sysconfdir}/ape
+%{__install} modules/conf/inlinepush.conf %{buildroot}%{_sysconfdir}/ape
+%{__install} modules/conf/proxy.conf %{buildroot}%{_sysconfdir}/ape
 %{__install} -d %{buildroot}%{_libdir}/ape
 %{__install} modules/lib/libmod_spidermonkey.so %{buildroot}%{_libdir}/ape
 %{__mkdir_p}  %{buildroot}%{_var}/log/ape
@@ -144,8 +146,10 @@ popd
 %dir %{_var}/log/ape
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/sysconfig/ape
 %attr(0755,root,root) %{_initrddir}/ape
-%{_sysconfdir}/ape/ape.conf
-%{_sysconfdir}/ape/javascript.conf
+%config(noreplace) %{_sysconfdir}/ape/ape.conf
+%config(noreplace) %{_sysconfdir}/ape/javascript.conf
+%config(noreplace) %{_sysconfdir}/ape/inlinepush.conf
+%config(noreplace) %{_sysconfdir}/ape/proxy.conf
 %_sbindir/*
 %{_libdir}/ape/*
 
