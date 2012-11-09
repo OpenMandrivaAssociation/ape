@@ -1,0 +1,67 @@
+--- APE-Project-APE_Server-0eff8f0/Makefile	2011-06-25 11:55:42.000000000 -0500
++++ APE-Project-APE_Server-0eff8f0.dlucio/Makefile	2011-06-26 01:50:07.614973877 -0500
+@@ -1,12 +1,12 @@
+ EXEC=bin/aped
+ 
+-prefix		= /usr/local
+-bindir		= $(prefix)/bin
++prefix		= /usr
++bindir		= $(prefix)/sbin
+ 
+ 
+ SRC=src/entry.c src/sock.c src/hash.c src/handle_http.c src/cmd.c src/users.c src/channel.c src/config.c src/json.c src/json_parser.c src/plugins.c src/http.c src/extend.c src/utils.c src/ticks.c src/base64.c src/pipe.c src/raw.c src/events.c src/event_kqueue.c src/event_epoll.c src/event_select.c src/transports.c src/servers.c src/dns.c src/sha1.c src/log.c src/parser.c src/md5.c
+ 
+-CFLAGS = -Wall -g -minline-all-stringops -rdynamic -I ./deps/udns-0.0.9/
++CFLAGS = -Wall -g -minline-all-stringops -rdynamic -I /usr/include
+ LFLAGS=-ldl -lm -lpthread
+ CC=gcc -D_GNU_SOURCE
+ RM=rm -f
+@@ -14,10 +14,11 @@
+ all: aped
+ 	
+ aped: $(SRC)
+-	$(CC) $(CFLAGS) $(SRC) -o $(EXEC) $(LFLAGS) ./deps/udns-0.0.9/libudns.a -I ./deps/udns-0.0.9/
++	$(CC) $(CFLAGS) $(SRC) -o $(EXEC) $(LFLAGS) /usr/lib/libudns.a  -I  /usr/include 
++
+ install: 
+-	install -d $(bindir)
+-	install -m 755 $(EXEC) $(bindir)
++	install -d $(sbindir)
++	install -m 755 $(EXEC) $(sbindir)
+ 
+ uninstall:
+ 	$(RM) $(bindir)/aped
+--- APE-Project-APE_Server-0eff8f0/modules/Makefile	2011-06-25 11:55:42.000000000 -0500
++++ APE-Project-APE_Server-0eff8f0.dlucio/modules/Makefile	2011-06-26 04:24:46.938257212 -0500
+@@ -4,16 +4,20 @@
+ CC=gcc -D_GNU_SOURCE
+ 
+ ifeq ($(HAS_MYSQL), yes)
+-	MYSQL_FLAGS = -L./deps/mysac/ -I./deps/mysac/ -lmysac -lmysqlclient_r
++	MYSQL_FLAGS = -lmysac -lmysqlclient_r
+ endif
+ 
++#SRC= ../src/entry.c ../src/sock.c ../src/hash.c ../src/handle_http.c ../src/cmd.c ../src/users.c ../src/channel.c ../src/config.c ../src/json.c ../src/json_parser.c ../src/plugins.c ../src/http.c ../src/extend.c ../src/utils.c ../src/ticks.c ../src/base64.c ../src/pipe.c ../src/raw.c ../src/events.c ../src/event_kqueue.c ../src/event_epoll.c ../src/event_select.c ../src/transports.c ../src/servers.c ../src/dns.c ../src/sha1.c ../src/log.c ../src/parser.c ../src/md5.c libape-spidermonkey.c
++SRC=  ../src/cmd.c ../src/users.c ../src/channel.c ../src/config.c ../src/json.c  ../src/plugins.c  ../src/extend.c ../src/utils.c ../src/ticks.c ../src/base64.c ../src/pipe.c ../src/raw.c ../src/events.c  ../src/sha1.c ../src/log.c libape-spidermonkey.c
++
++
+ ifdef DARWIN_BUILD
+ 
+ all: modules
+ 
+-modules: libape-spidermonkey.c
++modules: $(SRC) 
+ 
+-	$(CC) -Wall -g -bundle -undefined suppress -flat_namespace -o lib/libmod_spidermonkey.so libape-spidermonkey.c -I../deps/js/src/dist/include/ -L../deps/js/src/ -ljs_static -lstdc++ $(MYSQL_FLAGS)
++	$(CC) -Wall -g -bundle -undefined suppress -flat_namespace -o lib/libmod_spidermonkey.so $(SRC) -I../deps/js/../src/dist/include/ -L../deps/js/../src/ -ljs_static -lstdc++ $(MYSQL_FLAGS)
+ 
+ endif
+ ifdef LINUX_BUILD
+@@ -24,6 +28,6 @@
+ 
+ modules: libape-spidermonkey.c
+ 
+-	$(CC) $(CFLAGS) -Wl,-soname,libmod_spidermonkey.so -o lib/libmod_spidermonkey.so libape-spidermonkey.c -I../deps/js/src/dist/include/ -L../deps/js/src/ -ljs_static -lstdc++ $(MYSQL_FLAGS)
++	$(CC) $(CFLAGS) -Wl,-soname,libmod_spidermonkey.so -o lib/libmod_spidermonkey.so libape-spidermonkey.c -I/usr/include/js -I../src -L$(LIBDIR)  -lstdc++ $(MYSQL_FLAGS) -lmozjs185 -ludns -lmysac -lmysqld
+ 	
+ endif

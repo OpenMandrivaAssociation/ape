@@ -1,0 +1,39 @@
+--- APE-Project-APE_Server-0eff8f0/bin/ape.conf	2011-06-25 11:55:42.000000000 -0500
++++ APE-Project-APE_Server-0eff8f0.dlucio/bin/ape.conf	2011-06-26 04:48:14.883444600 -0500
+@@ -1,13 +1,13 @@
+ uid {
+ 	# "aped" switch to this user/group if it run as root
+-	user = daemon
+-	group = daemon
++	user = ape
++	group = ape
+ }
+ 
+ 
+ Server {
+ 	port = 6969
+-	daemon = no
++	daemon = yes
+ 	ip_listen = 0.0.0.0
+ 	domain = auto
+ 	rlimit_nofile = 10000
+@@ -18,7 +18,7 @@
+ 	debug = 1
+ 	use_syslog = 0
+ 	syslog_facility = local2
+-	logfile = ./ape.log
++	logfile = /var/log/ape/ape.log
+ }
+ 
+ JSONP {
+@@ -28,8 +28,8 @@
+ 
+ Config {
+ #relative to ape.conf
+-	modules = ../modules/lib/
+-	modules_conf = ../modules/conf/
++	modules = /usr/lib/ape/
++	modules_conf = /etc/ape/
+ }
+ 
+ # Proxy section is used to resolve hostname and allow access to a IP:port (Middleware-TCPSocket feature)
