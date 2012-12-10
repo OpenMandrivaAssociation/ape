@@ -157,3 +157,28 @@ popd
 %dir %{_var}/www/ape/
 %config(noreplace) %{_sysconfdir}/httpd/conf/vhosts.d/99_ape.conf
 %{_var}/www/ape/*
+
+
+%changelog
+* Wed Jun 29 2011 Luis Daniel Lucio Quiroz <dlucio@mandriva.org> 1.1.2-6mdv2011.0
++ Revision: 688241
+- SPEC fixes and missing conf files
+
+* Mon Jun 27 2011 Luis Daniel Lucio Quiroz <dlucio@mandriva.org> 1.1.2-5
++ Revision: 687388
+- apache macros
+
+* Mon Jun 27 2011 Luis Daniel Lucio Quiroz <dlucio@mandriva.org> 1.1.2-4
++ Revision: 687385
+- www subpackage to communicate with apache
+
+* Sun Jun 26 2011 Luis Daniel Lucio Quiroz <dlucio@mandriva.org> 1.1.2-3
++ Revision: 687381
+- init script fixes
+- mysql 5.1 support
+
+* Sun Jun 26 2011 Luis Daniel Lucio Quiroz <dlucio@mandriva.org> 1.1.2-2
++ Revision: 687270
+- lib64 support
+- import ape
+

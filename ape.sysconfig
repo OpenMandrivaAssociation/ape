@@ -1,0 +1,4 @@
+# currently IMspector only supports -d for debugging
+APE_OPTS=
+
+APE_CONFIG="/etc/ape/ape.conf"
