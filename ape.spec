@@ -1,11 +1,8 @@
-%define name    ape
-%define version 1.1.2
-%define release: 8
 %define revision 0eff8f0
 
-Name:		%{name}
-Version:	%{version}
-Release:	%{release}
+Name:		ape
+Version:	1.1.2
+Release:	8
 Summary:    	A full-featured OpenSource solution designed for Ajax Push
 License:    	GPLv2+
 Group:      	Networking/Other
@@ -22,7 +19,6 @@ BuildRequires:	udns-devel
 BuildRequires:	mysac-devel
 BuildRequires:  tar
 BuildRequires:  gzip
-BuildRoot:  	%{_tmppath}/%{name}-%{version}
 
 %description
 A full-featured OpenSource solution designed for Ajax Push. It includes a 
