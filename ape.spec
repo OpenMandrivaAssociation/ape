@@ -2,7 +2,7 @@
 
 Name:		ape
 Version:	1.1.2
-Release:	8
+Release:	9
 Summary:    	A full-featured OpenSource solution designed for Ajax Push
 License:    	GPLv2+
 Group:      	Networking/Other
