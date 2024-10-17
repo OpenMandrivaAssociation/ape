@@ -6,7 +6,7 @@ Release:	9
 Summary:    	A full-featured OpenSource solution designed for Ajax Push
 License:    	GPLv2+
 Group:      	Networking/Other
-URL:        	http://www.ape-project.org/
+URL:        	https://www.ape-project.org/
 Source:     	APE-Project-APE_Server-v1.1.0-14-g0eff8f0.tar.gz
 Source1:     	ape.sysconfig
 Source2:     	ape.init
