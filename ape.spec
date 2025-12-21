@@ -13,6 +13,7 @@ Source2:     	ape.init
 Source3:	http://www.ape-project.org/stable/APE_JSF-1.1.0.tar.gz
 Patch0:		ape-makefile.patch
 Patch1:		ape-conf.patch
+BuildRequires:	make
 BuildRequires:	mysql-devel
 BuildRequires:	js-devel
 BuildRequires:	udns-devel
